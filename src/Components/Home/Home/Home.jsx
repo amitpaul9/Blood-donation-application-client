@@ -1,9 +1,12 @@
 import React from 'react';
+import Banner from '../Pages/Banner/Banner';
+import Featured from '../Pages/Featured/Featured';
 
 const Home = () => {
     return (
         <div>
-
+            <Banner></Banner>
+            <Featured></Featured>
         </div>
     );
 };
