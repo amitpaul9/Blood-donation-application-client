@@ -39,7 +39,7 @@ const Dashboard = () => {
                     </div>
                 </div>
             </aside>
-
+            
             {/* Main Content Area */}
             <main className="flex-1 p-8 overflow-auto">
                 <div className="max-w-4xl">
