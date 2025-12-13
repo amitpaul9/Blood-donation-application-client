@@ -1,6 +1,9 @@
-import { Droplet, LogIn } from 'lucide-react';
+import { Droplet, LogIn, Menu, X } from 'lucide-react';
+import { useState } from 'react';
 
 const Navbar = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
     const navLinks = [
         { name: 'Dashboard', path: '/dashboard' },
         { name: 'Donation Request', path: '/donation-request' }
@@ -8,38 +11,78 @@ const Navbar = () => {
 
     return (
         <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
-            <div className="max-w-7xl mx-auto px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
-                    <a href="/" className="flex items-center gap-2">
-                        <div className="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center">
-                            <Droplet className="w-6 h-6 text-white" fill="white" />
+                    <a href="/" className="flex items-center gap-2 flex-shrink-0">
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 bg-red-600 rounded-lg flex items-center justify-center">
+                            <Droplet className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="white" />
                         </div>
-                        <span className="text-xl font-semibold text-gray-800">Blood Donation Application</span>
+                        <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 hidden sm:block">
+                            Blood Donation Application
+                        </span>
+                        <span className="text-base font-semibold text-gray-800 sm:hidden">
+                            BloodLink
+                        </span>
                     </a>
 
-
-                    <div className="flex items-center gap-8">
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-6 lg:gap-8">
                         {navLinks.map((link) => (
                             <a
                                 key={link.name}
                                 href={link.path}
-                                className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200"
+                                className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200 text-sm lg:text-base"
                             >
                                 {link.name}
                             </a>
                         ))}
-
 
                         <a
                             href="/login"
                             className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
                         >
                             <LogIn className="w-4 h-4" />
-                            <span className="font-medium">Login</span>
+                            <span className="font-medium text-sm lg:text-base">Login</span>
                         </a>
                     </div>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="md:hidden p-2 text-gray-700 hover:text-red-600 transition-colors"
+                        aria-label="Toggle menu"
+                    >
+                        {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                    </button>
                 </div>
+
+                {/* Mobile Menu */}
+                {isMenuOpen && (
+                    <div className="md:hidden border-t border-gray-200 py-4">
+                        <div className="flex flex-col space-y-3">
+                            {navLinks.map((link) => (
+                                <a
+                                    key={link.name}
+                                    href={link.path}
+                                    className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200 py-2 px-4 hover:bg-red-50 rounded-lg"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {link.name}
+                                </a>
+                            ))}
+
+                            <a
+                                href="/login"
+                                className="flex items-center justify-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <LogIn className="w-4 h-4" />
+                                <span>Login</span>
+                            </a>
+                        </div>
+                    </div>
+                )}
             </div>
         </nav>
     );
