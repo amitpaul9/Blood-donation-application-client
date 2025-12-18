@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { UserPlus, Search } from 'lucide-react';
+import { Link } from 'react-router';
 
 const Banner = () => {
     return (
@@ -20,21 +21,21 @@ const Banner = () => {
 
                     {/* Buttons */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                        <a
-                            href="/registration"
+                        <Link
+                            to="/registration"
                             className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                         >
                             <UserPlus className="w-5 h-5 sm:w-6 sm:h-6" />
                             <span>Join as a Donor</span>
-                        </a>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/search"
                             className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 transition-all duration-200 font-semibold text-base sm:text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                         >
                             <Search className="w-5 h-5 sm:w-6 sm:h-6" />
                             <span>Search Donors</span>
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Stats or Additional Info */}

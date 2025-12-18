@@ -1,5 +1,6 @@
 import { Droplet, LogIn, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'react-router';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,13 +39,13 @@ const Navbar = () => {
                             </a>
                         ))}
 
-                        <a
-                            href="/login"
+                        <Link
+                            to="/login"
                             className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
                         >
                             <LogIn className="w-4 h-4" />
                             <span className="font-medium text-sm lg:text-base">Login</span>
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -62,24 +63,24 @@ const Navbar = () => {
                     <div className="md:hidden border-t border-gray-200 py-4">
                         <div className="flex flex-col space-y-3">
                             {navLinks.map((link) => (
-                                <a
+                                <Link
                                     key={link.name}
                                     href={link.path}
                                     className="text-gray-700 hover:text-red-600 font-medium transition-colors duration-200 py-2 px-4 hover:bg-red-50 rounded-lg"
                                     onClick={() => setIsMenuOpen(false)}
                                 >
                                     {link.name}
-                                </a>
+                                </Link>
                             ))}
 
-                            <a
+                            <Link
                                 href="/login"
                                 className="flex items-center justify-center gap-2 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
                                 onClick={() => setIsMenuOpen(false)}
                             >
                                 <LogIn className="w-4 h-4" />
                                 <span>Login</span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 )}
