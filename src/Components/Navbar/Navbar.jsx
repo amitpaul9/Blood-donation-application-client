@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router';
 import { BloodAppContext } from '../../Context/BloodAppContext';
 import { CgProfile } from 'react-icons/cg';
 import { CiLogout } from 'react-icons/ci';
-import { MdSpaceDashboard } from 'react-icons/md';
+import { MdDashboard, MdOutlineSpaceDashboard, MdSpaceDashboard } from 'react-icons/md';
 
 
 
@@ -12,7 +12,7 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { user, signOutUser } = useContext(BloodAppContext);
 
-    console.log(user)
+
 
     const handleSignOut = () => {
         signOutUser()
@@ -57,7 +57,7 @@ const Navbar = () => {
                             <div className="dropdown dropdown-end">
                                 <div tabIndex={0} className=" mr-5 border-2 border-red-600 rounded-full"><img className='h-12 w-12 rounded-full' src={user?.photoURL} alt="" /></div>
                                 <ul tabIndex="-1" className="dropdown-content menu bg-red-600 text-white font-bold roundedP-box z-1 w-52 p-2 shadow-sm">
-                                    <li><Link to="/dashboard"><MdSpaceDashboard />Dashboard</Link></li>
+                                    <li><Link to="/dashboard">Dashboard</Link></li>
                                     <li><Link to="/"><CgProfile /> {user?.displayName}</Link></li>
                                     <li><Link onClick={handleSignOut}><CiLogout /> Logout</Link></li>
                                 </ul>
@@ -88,8 +88,8 @@ const Navbar = () => {
                                 {/* dropdown  */}
                                 <div className="dropdown dropdown-end">
                                     <div tabIndex={0} className=" mr-5 border-2 border-red-600 rounded-full"><img className='h-12 w-12 rounded-full' src={user?.photoURL} alt="" /></div>
-                                    <ul tabIndex="-1" className="dropdown-content menu bg-red-600 text-white font-bold roundedP-box z-1 w-52 p-2 shadow-sm">
-                                        <li><Link to="/dashboard"><MdSpaceDashboard />Dashboard</Link></li>
+                                    <ul tabIndex="-1" className="dropdown-content menu bg-red-600 text-black font-bold roundedP-box z-1 w-52 p-2 shadow-sm">
+                                        <li><Link to="/dashboard"><MdDashboard />Dashboard</Link></li>
                                         <li><Link to="/"><CgProfile /> {user?.displayName}</Link></li>
                                         <li><Link onClick={handleSignOut}><CiLogout /> Logout</Link></li>
                                     </ul>

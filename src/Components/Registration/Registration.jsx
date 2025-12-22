@@ -27,6 +27,7 @@ const Registration = () => {
         axios.get('./Upozila.json')
             .then(res => {
                 setUpozilas(res.data.upozilas)
+                console.log(res.data.upozilas)
             })
             .catch(error => console.log(error))
 

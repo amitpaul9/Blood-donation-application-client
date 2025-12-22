@@ -2,18 +2,19 @@ import React from 'react';
 import { Link, Outlet } from 'react-router';
 import Navbar from '../../Navbar/Navbar';
 import Footer from '../../Footer/Footer';
-import { Droplet, Heart, Home } from 'lucide-react';
+import { Droplet, Heart } from 'lucide-react';
+import { MdDashboard } from 'react-icons/md';
 
 const DashboardLayout = () => {
     const navItems = [
-        { name: 'Dashboard', icon: Home, path: '/dashboard' },
-        { name: 'Donation Request', icon: Droplet, path: 'donation-request' },
+        { name: 'Dashboard', icon: MdDashboard, path: '/dashboard' },
+        { name: 'Create Donation Request', icon: Droplet, path: 'donation-request' },
         { name: 'My Donation Request', icon: Heart, path: 'my-requests' }
     ];
     return (
-        <div>
+        <div className='flex flex-col min-h-screen'>
             <Navbar></Navbar>
-            <div className="flex h-screen bg-gray-50">
+            <div className="flex py-5 bg-gray-50">
                 {/* Sidebar */}
                 <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
 
@@ -44,7 +45,7 @@ const DashboardLayout = () => {
                     </div>
                 </aside>
 
-                <main>
+                <main className='flex-1'>
                     <Outlet></Outlet>
                 </main>
             </div>
