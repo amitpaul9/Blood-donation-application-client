@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth"
 import { auth } from '../Firebase/firebase.config';
 import { BloodAppContext } from './BloodAppContext';
+import axios from 'axios';
 
 const BloodAppProvider = ({ children }) => {
 
@@ -9,6 +10,11 @@ const BloodAppProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loader, setLoader] = useState(false);
     const [theme, setTheme] = useState('light');
+
+    const [role, setRole] = useState('');
+    const [roleLoading, setRoleLoading] = useState(true);
+
+
 
     //theme toggle function is inspired by online resourses
     useEffect(() => {
@@ -21,6 +27,8 @@ const BloodAppProvider = ({ children }) => {
             return newTheme;
         });
     };
+
+
 
 
     const signupUser = (email, password) => {
@@ -39,15 +47,39 @@ const BloodAppProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            setLoader(false)
-            setAuthLoading(false);
-        })
-        return () => {
-            unsubscribe();
-        }
-    }, [])
+            if (currentUser) {
+                setUser(currentUser);
+                setAuthLoading(false);
+                setLoader(false);
+            } else {
+                setUser(null);
+                setRole('');
+                setRoleLoading(false);
+                setAuthLoading(false);
+                setLoader(false);
+            }
+        });
 
+        return () => unsubscribe();
+    }, []);
+
+
+    useEffect(() => {
+        if (!user) return;
+
+
+        axios.get(`http://localhost:5000/users/role/${user.email}`)
+            .then(res => {
+                setRole(res.data.role);
+                setRoleLoading(false);
+                console.log('the role is', res)
+            })
+            .catch(err => {
+                console.error("Error fetching role:", err);
+                setRole('');
+                setRoleLoading(false);
+            });
+    }, [user]);
 
     const info = {
         signInUser,
@@ -58,8 +90,10 @@ const BloodAppProvider = ({ children }) => {
         setUser,
         authLoading,
         setLoader,
-        theme,
-        toggleTheme
+        toggleTheme,
+        role,
+        roleLoading
+
 
 
     }

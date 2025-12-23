@@ -7,6 +7,10 @@ import DashboardLayout from "../Components/Dashboard/DashboardLayout/DashboardLa
 import DashboardHome from "../Components/Dashboard/DashboardHome/DashboardHome";
 import DonationRequest from "../Components/Dashboard/DonationRequest/DonationRequest";
 import MyRequest from "../Components/Dashboard/MyRequest/MyRequest";
+import PrivateRouter from "../PrivateRouter/PrivateRouter";
+import Profile from "../Components/Dashboard/Profile/Profile";
+import AllUsers from "../Components/Dashboard/AllUsers/AllUsers";
+
 
 
 export const router = createBrowserRouter([
@@ -25,7 +29,7 @@ export const router = createBrowserRouter([
                 Component: Login
             },
             {
-                path: 'registration',
+                path: 'register',
                 Component: Registration
             }
         ]
@@ -33,20 +37,29 @@ export const router = createBrowserRouter([
     },
     {
         path: 'dashboard',
-        element: <DashboardLayout></DashboardLayout>,
+        element: <PrivateRouter><DashboardLayout></DashboardLayout></PrivateRouter>,
         errorElement: <h1 className="text-center text-5xl text-red-900">404 not found</h1>,
         children: [
             {
                 index: true,
-                Component: DashboardHome
+                element: <PrivateRouter><DashboardHome></DashboardHome></PrivateRouter>
             },
             {
                 path: 'donation-request',
-                Component: DonationRequest
+                element: <PrivateRouter><DonationRequest></DonationRequest></PrivateRouter>
             },
             {
                 path: 'my-requests',
-                Component: MyRequest
+                element: <PrivateRouter><MyRequest></MyRequest></PrivateRouter>
+            },
+            {
+                path: 'profile',
+                element: <PrivateRouter><Profile></Profile></PrivateRouter>
+
+            },
+            {
+                path: 'allusers',
+                element: <PrivateRouter><AllUsers></AllUsers></PrivateRouter>
             }
 
         ]

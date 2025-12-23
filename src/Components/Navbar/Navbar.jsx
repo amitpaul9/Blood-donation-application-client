@@ -96,7 +96,7 @@ const Navbar = () => {
                                 </div></div>
                                 : <div className="navbar-end ">
                                     <Link className="btn lg:btn-lg btn-xs  hover:transform-3d bg-red-600 text-white   mr-2" to="/login">Login</Link>
-                                    <Link className='btn border-2 lg:btn-lg btn-xs  hover:transform-3d border-indigo-900  bg-white' to="/register">Register</Link>
+                                    <Link className="btn border-2 lg:btn-lg btn-xs  hover:transform-3d border-indigo-900  bg-white" to="/register">Register</Link>
                                 </div>}
                         </div>
                     </div>

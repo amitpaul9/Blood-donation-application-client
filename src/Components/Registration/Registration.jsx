@@ -53,6 +53,7 @@ const Registration = () => {
         const bloodGroup = e.target.bloodGroup.value;
         const district = e.target.district.value;
         const upozila = e.target.upozila.value;
+        const role = "donor";
 
         const file = photo.files[0];
 
@@ -118,7 +119,7 @@ const Registration = () => {
                 // save user to the database 
 
                 const newUser = {
-                    name, email, fileUrl, bloodGroup, upozila, district
+                    name, email, fileUrl, bloodGroup, upozila, district, role
 
                 }
                 console.log(newUser)
