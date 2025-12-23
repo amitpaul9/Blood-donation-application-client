@@ -3,6 +3,16 @@ import { BloodAppContext } from '../../../Context/BloodAppContext';
 import { Calendar, Clock, MapPin, Droplet, Edit, Trash2, Eye, User, Mail } from 'lucide-react';
 import axios from 'axios';
 import { Link } from 'react-router';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    Tooltip,
+    ResponsiveContainer,
+} from "recharts";
+
+
 
 
 const DashboardHome = () => {
@@ -13,6 +23,8 @@ const DashboardHome = () => {
     const [deleteId, setDeleteId] = useState(null);
 
     const [donationRequest, setDonationRequest] = useState([]);
+    const [totalUser, setTotalUser] = useState([]);
+    const [totalReq, setTotalReq] = useState([]);
 
     useEffect(() => {
         axios.get(`http://localhost:5000/requests/recent?requesterEmail=${user?.email}`)
@@ -23,6 +35,21 @@ const DashboardHome = () => {
             .catch(error => {
                 console.log("got error of", error);
             });
+
+
+        axios.get('http://localhost:5000/users')
+            .then(res => {
+                setTotalUser(res.data)
+                console.log('userdata is', res)
+            })
+            .catch(err => console('got error getting total user', err))
+
+        axios.get('http://localhost:5000/all-requests')
+            .then(res => {
+                setTotalReq(res.data)
+                console.log('request is', res)
+            })
+            .catch(err => console('got error all req', err))
     }, [user?.email])
 
     console.log("recent donation requests", donationRequest)
@@ -68,6 +95,27 @@ const DashboardHome = () => {
                 <div className="max-w-4xl">
                     <h1 className="text-2xl font-bold text-gray-800 mb-2">Dashboard</h1>
                     <p className="text-gray-600">Hey {user?.displayName}, Welcome to blood donation application dashboard</p>
+
+
+
+                    {/* admin content */}
+                    {(role === "admin") && (<div className='w-full h-64 mt-10'><ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                            data={[
+                                { name: "Total Users", value: totalUser.length },
+                                { name: "Total Donation Requests", value: totalReq.length },
+                            ]}
+                        >
+                            <XAxis dataKey="name" />
+                            <YAxis allowDecimals={false} />
+                            <Tooltip />
+                            <Bar dataKey="value" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                        </BarChart>
+                    </ResponsiveContainer></div>)}
+
+
+
+
 
 
                     {donationRequest.length === 0 ? (<div></div>) :
