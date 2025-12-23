@@ -17,10 +17,6 @@ const DashboardLayout = () => {
                 {/* Sidebar */}
                 <aside className="lg:w-64 w-10 bg-white border-r border-gray-200 flex flex-col">
 
-
-
-
-
                     {/* Navigation */}
                     <nav className="flex-1 p-4">
                         <ul className="space-y-2">

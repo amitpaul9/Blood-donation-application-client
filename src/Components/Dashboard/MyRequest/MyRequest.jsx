@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { BloodAppContext } from '../../../Context/BloodAppContext';
 import { Eye, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import axios from 'axios';
 
 const MyRequest = () => {
     const { user } = useContext(BloodAppContext);
@@ -9,11 +10,10 @@ const MyRequest = () => {
 
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5000/requests?email=${user.email}`)
-                .then(res => res.json())
+            axios.get(`http://localhost:5000/requests?requesterEmail=${user.email}`)
                 .then(data => {
-                    console.log(data);
-                    setMyRequest(data)
+                    console.log(data.data);
+                    setMyRequest(data.data)
                 })
                 .catch(error => console.log("got an error fetching requests", error))
         }
@@ -61,81 +61,89 @@ const MyRequest = () => {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                        {myRequests.map((request) => (
-                            <tr key={request.id} className="hover:bg-gray-50 transition-colors">
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
-                                    <div className="text-[11px] sm:text-sm font-medium text-gray-900">{request.receiverName}</div>
-                                </td>
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
-                                    <div className="text-[11px] sm:text-sm text-gray-700">{request.address}</div>
-                                </td>
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
-                                    <div className="text-[11px] sm:text-sm text-gray-700">{request.time}</div>
-                                    <div className="text-[9px] sm:text-xs text-gray-500">{request.date}</div>
-                                </td>
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
-                                    <span className="inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[11px] sm:text-sm font-semibold bg-red-100 text-red-800">
-                                        {request.bloodGroup}
-                                    </span>
-                                </td>
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
-                                    <span className={`inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold border ${getStatusColor(request.status)}`}>
-                                        {request.status}
-                                    </span>
-                                </td>
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4">
-                                    <div className="text-[11px] sm:text-sm">
-                                        <div className="font-medium text-gray-900">{request.requesterName}</div>
-                                        <div className="text-[9px] sm:text-xs text-gray-500">{request.requesterEmail}</div>
-                                    </div>
 
-                                </td>
-                                <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
-                                    <div className="flex items-center gap-1 sm:gap-2">
-                                        {request.status === 'inprogress' && (
-                                            <>
+                    {
+                        myRequests === 0 ? (
+                            <p className='text-red-600 text-center text-2xl'>No requests found</p>
+                        ) : (
+                            <tbody className="divide-y divide-gray-200">
+                                {myRequests?.map((request) => (
+                                    <tr key={request.id} className="hover:bg-gray-50 transition-colors">
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
+                                            <div className="text-[11px] sm:text-sm font-medium text-gray-900">{request.receiverName}</div>
+                                        </td>
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
+                                            <div className="text-[11px] sm:text-sm text-gray-700">{request.address}</div>
+                                        </td>
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
+                                            <div className="text-[11px] sm:text-sm text-gray-700">{request.time}</div>
+                                            <div className="text-[9px] sm:text-xs text-gray-500">{request.date}</div>
+                                        </td>
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
+                                            <span className="inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[11px] sm:text-sm font-semibold bg-red-100 text-red-800">
+                                                {request.bloodGroup}
+                                            </span>
+                                        </td>
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
+                                            <span className={`inline-flex items-center px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold border ${getStatusColor(request.status)}`}>
+                                                {request.status}
+                                            </span>
+                                        </td>
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4">
+                                            <div className="text-[11px] sm:text-sm">
+                                                <div className="font-medium text-gray-900">{request.requesterName}</div>
+                                                <div className="text-[9px] sm:text-xs text-gray-500">{request.requesterEmail}</div>
+                                            </div>
+
+                                        </td>
+                                        <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
+                                            <div className="flex items-center gap-1 sm:gap-2">
+                                                {request.status === 'inprogress' && (
+                                                    <>
+                                                        <button
+                                                            className="p-1 sm:p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                                            title="Mark as Done"
+                                                        >
+                                                            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                        </button>
+                                                        <button
+                                                            className="p-1 sm:p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                            title="Cancel"
+                                                        >
+                                                            <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                        </button>
+                                                    </>
+                                                )}
                                                 <button
-                                                    className="p-1 sm:p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                                    title="Mark as Done"
+                                                    className="p-1 sm:p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="View Details"
                                                 >
-                                                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
                                                 </button>
                                                 <button
+                                                    className="p-1 sm:p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
+                                                    title="Edit"
+                                                >
+                                                    <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                </button>
+                                                <button
+
                                                     className="p-1 sm:p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                    title="Cancel"
+                                                    title="Delete"
                                                 >
-                                                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+                                                    <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
                                                 </button>
-                                            </>
-                                        )}
-                                        <button
-                                            className="p-1 sm:p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                            title="View Details"
-                                        >
-                                            <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        </button>
-                                        <button
-                                            className="p-1 sm:p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
-                                            title="Edit"
-                                        >
-                                            <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        </button>
-                                        <button
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        )
+                    }
 
-                                            className="p-1 sm:p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                            title="Delete"
-                                        >
-                                            <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
                 </table>
             </div>
-        </div>
+        </div >
 
 
     );
