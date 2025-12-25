@@ -15,6 +15,7 @@ import DonorSearchPage from "../DonorSearchPage/DonorSearchPage";
 import PendingDonationRequest from "../Components/PendingDonationRequest/PendingDonationRequest";
 import DonationDetails from "../Components/DonationDetails/DonationDetails";
 import AllDonationRequests from "../Components/Dashboard/AllDonationRequests/AllDonationRequests";
+import UpdateRequest from "../Components/UpdateRequest/UpdateRequest";
 
 
 
@@ -50,7 +51,13 @@ export const router = createBrowserRouter([
                 path: "/donation-details/:id",
                 loader: ({ params }) => fetch(`http://localhost:5000/requests/${params.id}`),
                 element: <PrivateRouter><DonationDetails></DonationDetails></PrivateRouter>
+            },
+            {
+                path: 'edit-request/:id',
+                loader: ({ params }) => fetch(`http://localhost:5000/requests/${params.id}`),
+                element: <PrivateRouter><UpdateRequest></UpdateRequest></PrivateRouter>
             }
+
         ]
 
     },
@@ -83,7 +90,8 @@ export const router = createBrowserRouter([
             {
                 path: 'all-requests',
                 Component: AllDonationRequests
-            }
+            },
+
 
         ]
     }

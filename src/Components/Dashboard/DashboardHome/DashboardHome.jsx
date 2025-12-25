@@ -11,6 +11,7 @@ import {
     Tooltip,
     ResponsiveContainer,
 } from "recharts";
+import Swal from 'sweetalert2';
 
 
 
@@ -19,8 +20,8 @@ const DashboardHome = () => {
 
     const { user, role } = useContext(BloodAppContext)
 
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [deleteId, setDeleteId] = useState(null);
+
+
 
     const [donationRequest, setDonationRequest] = useState([]);
     const [totalUser, setTotalUser] = useState([]);
@@ -66,22 +67,44 @@ const DashboardHome = () => {
 
 
 
+    const handleImportDelete = (_id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/requests/${_id}`, {
+                    method: 'DELETE',
 
-    const handleDeleteClick = (id) => {
-        setDeleteId(id);
-        setShowDeleteModal(true);
-    };
+                })
 
-    const confirmDelete = () => {
-        setDonationRequest(donationRequest?.filter(d => d.id !== deleteId));
-        setShowDeleteModal(false);
-        setDeleteId(null);
-    };
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your import has been deleted.",
+                                icon: "success"
+                            });
 
-    const handleEdit = (id) => {
-        console.log('Edit donation request:', id);
-        // Redirect to edit page
-    };
+                            const remaininRequests = donationRequest.filter(request => request._id != _id);
+                            setDonationRequest(remaininRequests);
+                        }
+
+                    })
+                    .catch(error => console.log('got an error deleting data', error))
+            }
+        });
+    }
+
+
+
+
 
 
 
@@ -179,14 +202,15 @@ const DashboardHome = () => {
                                                             <Eye className="w-4 h-4" />
                                                             View
                                                         </Link>
-                                                        <button
-                                                            onClick={() => handleEdit(donation?.id)}
+                                                        <Link
+                                                            to={`/edit-request/${donation._id}`}
+
                                                             className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors duration-200"
                                                         >
                                                             <Edit className="w-4 h-4" />
-                                                        </button>
+                                                        </Link>
                                                         <button
-                                                            onClick={() => handleDeleteClick(donation?.id)}
+                                                            onClick={() => handleImportDelete(donation._id)}
                                                             className="flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors duration-200"
                                                         >
                                                             <Trash2 className="w-4 h-4" />
@@ -200,29 +224,7 @@ const DashboardHome = () => {
                                     </div>
                                 </div>
 
-                                {showDeleteModal && (
-                                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                                        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-                                            <h3 className="text-xl font-bold text-gray-900 mb-4">Confirm Deletion</h3>
-                                            <p className="text-gray-600 mb-6">Are you sure you want to delete this donation request? This action cannot be undone.</p>
-                                            <div className="flex gap-3">
-                                                <button
-                                                    onClick={() => setShowDeleteModal(false)}
-                                                    className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-md font-medium transition-colors duration-200"
-                                                >
-                                                    Cancel
-                                                </button>
-                                                <button
-                                                    onClick={confirmDelete}
-                                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-md font-medium transition-colors duration-200"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                )}
                                 <div className=' flex justify-center w-full mt-8'> <Link to='my-requests' className='btn bg-red-600  text-white'>See All</Link></div>
                             </div>
 

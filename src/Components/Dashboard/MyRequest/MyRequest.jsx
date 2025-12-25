@@ -2,10 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BloodAppContext } from '../../../Context/BloodAppContext';
 import { Eye, Edit, Trash2, CheckCircle, XCircle } from 'lucide-react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const MyRequest = () => {
     const { user } = useContext(BloodAppContext);
     const [myRequests, setMyRequest] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const requestsPerPage = 5;
 
 
     useEffect(() => {
@@ -21,6 +25,48 @@ const MyRequest = () => {
     }, [user?.email])
 
 
+    const handleImportDelete = (_id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/requests/${_id}`, {
+                    method: 'DELETE',
+
+                })
+
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your import has been deleted.",
+                                icon: "success"
+                            });
+
+                            const remaininRequests = myRequests.filter(request => request._id != _id);
+                            setMyRequest(remaininRequests);
+                        }
+
+                    })
+                    .catch(error => console.log('got an error deleting data', error))
+            }
+        });
+    }
+
+    // Pagination
+    const indexOfLastRequest = currentPage * requestsPerPage;
+    const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
+    const currentRequests = myRequests.slice(indexOfFirstRequest, indexOfLastRequest);
+    const totalPages = Math.ceil(myRequests.length / requestsPerPage);
+
+
     const getStatusColor = (status) => {
         switch (status) {
             case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -30,6 +76,11 @@ const MyRequest = () => {
             default: return 'bg-gray-100 text-gray-800 border-gray-200';
         }
     };
+
+
+
+
+
 
 
     return (
@@ -67,7 +118,7 @@ const MyRequest = () => {
                             <p className='text-red-600 text-center text-2xl'>No requests found</p>
                         ) : (
                             <tbody className="divide-y divide-gray-200">
-                                {myRequests?.map((request) => (
+                                {currentRequests?.map((request) => (
                                     <tr key={request.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-2 sm:px-4 lg:px-6 py-2 sm:py-3 lg:py-4 whitespace-nowrap">
                                             <div className="text-[11px] sm:text-sm font-medium text-gray-900">{request.receiverName}</div>
@@ -127,6 +178,7 @@ const MyRequest = () => {
                                                     <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
                                                 </button>
                                                 <button
+                                                    onClick={() => handleImportDelete(request._id)}
 
                                                     className="p-1 sm:p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                                     title="Delete"
@@ -137,6 +189,52 @@ const MyRequest = () => {
                                         </td>
                                     </tr>
                                 ))}
+                                {/* Pagination */}
+                                {myRequests.length > 0 && (
+                                    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4  p-4 ml-3 mr-3">
+                                        <p className="text-sm text-gray-600">
+                                            Showing {indexOfFirstRequest + 1} to {Math.min(indexOfLastRequest, myRequests.length)} of {myRequests.length} requests
+                                        </p>
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                                                disabled={currentPage === 1}
+                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === 1
+                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                    : 'bg-red-600 text-white hover:bg-red-700'
+                                                    }`}
+                                            >
+                                                Previous
+                                            </button>
+
+                                            <div className="flex gap-1">
+                                                {[...Array(totalPages)].map((_, index) => (
+                                                    <button
+                                                        key={index + 1}
+                                                        onClick={() => setCurrentPage(index + 1)}
+                                                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === index + 1
+                                                            ? 'bg-red-600 text-white'
+                                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                            }`}
+                                                    >
+                                                        {index + 1}
+                                                    </button>
+                                                ))}
+                                            </div>
+
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                                disabled={currentPage === totalPages}
+                                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === totalPages
+                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                    : 'bg-red-600 text-white hover:bg-red-700'
+                                                    }`}
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </tbody>
                         )
                     }

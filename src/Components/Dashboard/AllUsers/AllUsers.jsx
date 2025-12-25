@@ -234,7 +234,7 @@ const AllUsersPage = () => {
                 </div>
 
                 {/* Pagination */}
-                {totalPages > 1 && (
+                {filteredUsers.length > 0 && (
                     <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-lg shadow-md p-4">
                         <p className="text-sm text-gray-600">
                             Showing {indexOfFirstUser + 1} to {Math.min(indexOfLastUser, filteredUsers.length)} of {filteredUsers.length} users
