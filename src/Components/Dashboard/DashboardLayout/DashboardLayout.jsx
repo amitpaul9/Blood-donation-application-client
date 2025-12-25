@@ -25,7 +25,7 @@ const DashboardLayout = () => {
                             <li><NavLink to="my-requests" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Heart className='h-5 w-5'></Heart><span className='hidden lg:block md:block'>My Donation Request</span></NavLink></li>
                             <li><NavLink to="profile" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><CgProfile className='h-5 w-5'></CgProfile><span className='hidden lg:block md:block'>Profile</span></NavLink></li>
                             {
-                                role === "admin" && <li><NavLink to="my-requests" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Users className='h-5 w-5'></Users><span className='hidden lg:block md:block'>All Users</span></NavLink></li>
+                                role === "admin" && <li><NavLink to="allusers" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Users className='h-5 w-5'></Users><span className='hidden lg:block md:block'>All Users</span></NavLink></li>
                             }
                         </ul>
                     </nav>

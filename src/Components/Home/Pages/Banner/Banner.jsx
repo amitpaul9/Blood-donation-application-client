@@ -30,7 +30,7 @@ const Banner = () => {
                         </Link>
 
                         <Link
-                            href="/search"
+                            to="/search-donor"
                             className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-white text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 transition-all duration-200 font-semibold text-base sm:text-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                         >
                             <Search className="w-5 h-5 sm:w-6 sm:h-6" />

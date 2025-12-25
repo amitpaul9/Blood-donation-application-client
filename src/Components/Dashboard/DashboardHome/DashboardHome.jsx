@@ -83,10 +83,7 @@ const DashboardHome = () => {
         // Redirect to edit page
     };
 
-    const handleView = (id) => {
-        console.log('View donation details:', id);
-        // Redirect to details page
-    };
+
 
     return (
         <div>
@@ -170,13 +167,13 @@ const DashboardHome = () => {
 
 
                                                     <div className="flex gap-2">
-                                                        <button
-                                                            onClick={() => handleView(donation?.id)}
+                                                        <Link to={`/donation-details/${donation._id}`}
+
                                                             className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors duration-200"
                                                         >
                                                             <Eye className="w-4 h-4" />
                                                             View
-                                                        </button>
+                                                        </Link>
                                                         <button
                                                             onClick={() => handleEdit(donation?.id)}
                                                             className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-md text-sm font-medium transition-colors duration-200"

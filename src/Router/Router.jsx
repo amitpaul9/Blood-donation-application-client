@@ -10,6 +10,10 @@ import MyRequest from "../Components/Dashboard/MyRequest/MyRequest";
 import PrivateRouter from "../PrivateRouter/PrivateRouter";
 import Profile from "../Components/Dashboard/Profile/Profile";
 import AllUsers from "../Components/Dashboard/AllUsers/AllUsers";
+import { Component } from "lucide-react";
+import DonorSearchPage from "../DonorSearchPage/DonorSearchPage";
+import PendingDonationRequest from "../Components/PendingDonationRequest/PendingDonationRequest";
+import DonationDetails from "../Components/DonationDetails/DonationDetails";
 
 
 
@@ -31,6 +35,20 @@ export const router = createBrowserRouter([
             {
                 path: 'register',
                 Component: Registration
+            },
+            {
+                path: 'search-donor',
+                Component: DonorSearchPage
+            },
+            {
+                path: 'donation-req',
+                Component: PendingDonationRequest
+
+            },
+            {
+                path: "/donation-details/:id",
+                loader: ({ params }) => fetch(`http://localhost:5000/requests/${params.id}`),
+                element: <PrivateRouter><DonationDetails></DonationDetails></PrivateRouter>
             }
         ]
 

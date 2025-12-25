@@ -82,7 +82,7 @@ const Navbar = () => {
                 {isMenuOpen && (
                     <div className="md:hidden border-t border-gray-200 py-4">
                         <div className="flex flex-col space-y-3">
-                            <NavLink to='donation-req'>Donation Request</NavLink>
+                            <NavLink to="/donation-req">Donation Request</NavLink>
 
                             {user ? <div >
                                 {/* dropdown  */}
