@@ -1,75 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User, Shield, UserCog, Lock, Unlock } from 'lucide-react';
+import axios from 'axios';
 
 const AllUsersPage = () => {
     const [statusFilter, setStatusFilter] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 5;
+    const [allUsers, setAllUsers] = useState([])
 
-    // Mock users data
-    const allUsers = [
-        {
-            id: 1,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=John',
-            name: 'John Doe',
-            email: 'john.doe@example.com',
-            role: 'donor',
-            status: 'active'
-        },
-        {
-            id: 2,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Jane',
-            name: 'Jane Smith',
-            email: 'jane.smith@example.com',
-            role: 'volunteer',
-            status: 'active'
-        },
-        {
-            id: 3,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mike',
-            name: 'Mike Johnson',
-            email: 'mike.johnson@example.com',
-            role: 'donor',
-            status: 'blocked'
-        },
-        {
-            id: 4,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah',
-            name: 'Sarah Williams',
-            email: 'sarah.williams@example.com',
-            role: 'admin',
-            status: 'active'
-        },
-        {
-            id: 5,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Tom',
-            name: 'Tom Brown',
-            email: 'tom.brown@example.com',
-            role: 'volunteer',
-            status: 'blocked'
-        },
-        {
-            id: 6,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Emma',
-            name: 'Emma Davis',
-            email: 'emma.davis@example.com',
-            role: 'donor',
-            status: 'active'
-        },
-        {
-            id: 7,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=David',
-            name: 'David Wilson',
-            email: 'david.wilson@example.com',
-            role: 'donor',
-            status: 'active'
-        }
-    ];
+    useEffect(() => {
+
+        axios.get('http://localhost:5000/users')
+            .then(data => {
+                console.log(data.data);
+                setAllUsers(data.data)
+            })
+            .catch(error => console.log("got an error fetching requests", error))
+
+
+    }, [])
+
 
     // Filter users based on status
     const filteredUsers = statusFilter === 'all'
         ? allUsers
-        : allUsers.filter(user => user.status === statusFilter);
+        : allUsers.filter(user => user.userStatus === statusFilter);
 
     // Pagination
     const indexOfLastUser = currentPage * usersPerPage;
@@ -166,7 +121,7 @@ const AllUsersPage = () => {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <img
-                                                    src={user.avatar}
+                                                    src={user.fileUrl}
                                                     alt={user.name}
                                                     className="w-10 h-10 rounded-full"
                                                 />
@@ -185,12 +140,12 @@ const AllUsersPage = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadgeColor(user.status)}`}>
-                                                {user.status}
+                                                {user.userStatus}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex gap-2">
-                                                {user.status === 'active' ? (
+                                                {user.userStatus === 'active' ? (
                                                     <button className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Block User">
                                                         <Lock size={18} />
                                                     </button>
