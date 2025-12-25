@@ -21,8 +21,20 @@ const DashboardLayout = () => {
                     <nav className="flex-1 p-4">
                         <ul className="space-y-2">
                             <li><NavLink to="/dashboard" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><MdDashboard className='h-5 w-5'></MdDashboard><span className='hidden lg:block md:block'>Dashboard</span></NavLink></li>
-                            <li><NavLink to="donation-request" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Droplet className='h-5 w-5'></Droplet><span className='hidden lg:block md:block'>Create Donation Request</span></NavLink></li>
-                            <li><NavLink to="my-requests" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Heart className='h-5 w-5'></Heart><span className='hidden lg:block md:block'>My Donation Request</span></NavLink></li>
+                            {(role === "admin" || role === "donor") && (
+                                <li>
+                                    <NavLink
+                                        to="donation-request"
+                                        className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"
+                                    >
+                                        <Droplet className='h-5 w-5' />
+                                        <span className='hidden lg:block md:block'>Create Donation Request</span>
+                                    </NavLink>
+                                </li>
+                            )}
+
+                            {role === "donor" && <li><NavLink to="my-requests" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Heart className='h-5 w-5'></Heart><span className='hidden lg:block md:block'>My Donation Request</span></NavLink></li>}
+                            {(role === "admin" || role === "moderator") && (<li> <NavLink to="all-requests" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200" > <Heart className='h-5 w-5' /> <span className='hidden lg:block md:block'>All Donation Request</span> </NavLink> </li>)}
                             <li><NavLink to="profile" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><CgProfile className='h-5 w-5'></CgProfile><span className='hidden lg:block md:block'>Profile</span></NavLink></li>
                             {
                                 role === "admin" && <li><NavLink to="allusers" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors duration-200"><Users className='h-5 w-5'></Users><span className='hidden lg:block md:block'>All Users</span></NavLink></li>

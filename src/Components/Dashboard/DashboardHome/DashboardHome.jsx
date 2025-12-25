@@ -96,19 +96,24 @@ const DashboardHome = () => {
 
 
                     {/* admin content */}
-                    {(role === "admin") && (<div className='w-full h-64 mt-10'><ResponsiveContainer width="100%" height="100%">
-                        <BarChart
-                            data={[
-                                { name: "Total Users", value: totalUser.length },
-                                { name: "Total Donation Requests", value: totalReq.length },
-                            ]}
-                        >
-                            <XAxis dataKey="name" />
-                            <YAxis allowDecimals={false} />
-                            <Tooltip />
-                            <Bar dataKey="value" fill="#3b82f6" radius={[6, 6, 0, 0]} />
-                        </BarChart>
-                    </ResponsiveContainer></div>)}
+                    {(role === "admin" || role === "moderator") && (
+                        <div className='w-full h-64 mt-10'>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                    data={[
+                                        { name: "Total Users", value: totalUser.length },
+                                        { name: "Total Donation Requests", value: totalReq.length },
+                                    ]}
+                                >
+                                    <XAxis dataKey="name" />
+                                    <YAxis allowDecimals={false} />
+                                    <Tooltip />
+                                    <Bar dataKey="value" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    )}
+
 
 
 

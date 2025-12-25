@@ -14,6 +14,7 @@ import { Component } from "lucide-react";
 import DonorSearchPage from "../DonorSearchPage/DonorSearchPage";
 import PendingDonationRequest from "../Components/PendingDonationRequest/PendingDonationRequest";
 import DonationDetails from "../Components/DonationDetails/DonationDetails";
+import AllDonationRequests from "../Components/Dashboard/AllDonationRequests/AllDonationRequests";
 
 
 
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
             {
                 path: 'allusers',
                 element: <PrivateRouter><AllUsers></AllUsers></PrivateRouter>
+            },
+            {
+                path: 'all-requests',
+                Component: AllDonationRequests
             }
 
         ]
