@@ -49,27 +49,24 @@ A web-based blood donation platform built to bridge the gap between donors and r
 ---
 ⚙️ Installation & Setup
 Prerequisites
-
 Node.js
-
 MongoDB
-
 Firebase Project
 
-Clone the Repository
-git clone https://github.com/your-username/your-repo-name.git
+##Clone the Repository
+git clone https://github.com/amitpaul9/Blood-donation-application-client
 cd your-repo-name
 
-Install Dependencies
+##Install Dependencies
 
-Frontend
+##Frontend
 
 cd client
 npm install
 npm run dev
 
 
-Backend
+##Backend
 
 cd server
 npm install
