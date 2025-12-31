@@ -1,6 +1,3 @@
-Here’s a clean, professional **README.md** you can directly use for your GitHub repo. It’s written to look good to recruiters and collaborators 👌
-
----
 
 # 🩸 Blood Donation Platform
 
