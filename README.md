@@ -53,7 +53,7 @@ A web-based blood donation platform built to bridge the gap between donors and r
 
 ## 🌐 Live Demo
 
-Example: `https://blood-donation-app-by-amit.netlify.app`
+Example: `blood-donation-app-by-amit.netlify.app`
 
 ---
 
