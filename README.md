@@ -55,6 +55,7 @@ Firebase Project
 
 ## Clone the Repository
 git clone https://github.com/amitpaul9/Blood-donation-application-client
+</br>
 cd your-repo-name
 
 ## Install Dependencies
