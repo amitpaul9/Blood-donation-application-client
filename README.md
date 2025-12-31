@@ -47,6 +47,35 @@ A web-based blood donation platform built to bridge the gap between donors and r
 ```
 
 ---
+⚙️ Installation & Setup
+Prerequisites
+
+Node.js
+
+MongoDB
+
+Firebase Project
+
+Clone the Repository
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+
+Install Dependencies
+
+Frontend
+
+cd client
+npm install
+npm run dev
+
+
+Backend
+
+cd server
+npm install
+npm run start
+
+---
 
 ## 🌐 Live Demo
 
